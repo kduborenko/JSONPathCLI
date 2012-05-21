@@ -9,6 +9,7 @@ var fs = require('fs')
     .usage('Usage: $0 ' + 'query '+ '[file (optional, otherwise stdin)]')
     .boolean('j').alias('j','json').describe('j','Force json formatted output even when results are primitive values')
     .boolean('p').alias('p','pretty').describe('p','Pretty-print json output')
+    .alias('i','indents').describe('i','Set indentation value, ignored for pretty-print')
     .boolean('h').alias('h','help').describe('h','Show this help')
     .boolean('c').alias('c','cheat').describe('c','Show a jsonpath cheatsheet')
   , argv = opt.argv
@@ -78,8 +79,10 @@ function queryJSONString(query, json) {
   } else {
     if (argv.p) {
       console.log(util.inspect(results, false, null, true))
+    } else if (argv.i) {
+      console.log(JSON.stringify(results, null, argv.i))
     } else {
-      console.log(JSON.stringify(results)) 
+      console.log(JSON.stringify(results))
     }
   }
 }
